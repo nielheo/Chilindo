@@ -20,7 +20,7 @@ namespace Chillindo.Api.Controllers
 
         // GET: api/values
         [HttpGet]
-        [Route("balance/{id}")]
+        [Route("{id}/balance")]
         public async Task<AccountTransactionResponse> Balance(int id)
         {
             return await _AccountRep.Balance(id);
@@ -28,20 +28,19 @@ namespace Chillindo.Api.Controllers
         
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        [Route("{id}/deposit")]
+        public async Task<AccountTransactionResponse> Deposit([FromBody]AccountTransactionRequest request)
         {
+            return await _AccountRep.Deposit(request);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        // POST api/values
+        [HttpPost]
+        [Route("{id}/withdraw")]
+        public async Task<AccountTransactionResponse> Withdraww([FromBody]AccountTransactionRequest request)
         {
+            return new AccountTransactionResponse();
         }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        
     }
 }
