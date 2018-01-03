@@ -73,59 +73,92 @@ namespace Chillindo.Data.Repositories
 
         public async Task<AccountTransactionResponse> Deposit(AccountTransactionRequest request)
         {
-            _logger.LogInformation($"Deposit amount to account number: {request.AccountNumber}");
+            try
+            {
+                _logger.LogInformation($"Deposit amount to account number: {request.AccountNumber}");
 
-            var account = await _db.Accounts
-                .Include(a => a.Balances)
-                .FirstOrDefaultAsync(acc => acc.AccountNumber == request.AccountNumber);
+                var account = await _db.Accounts
+                    .Include(a => a.Balances)
+                    .FirstOrDefaultAsync(acc => acc.AccountNumber == request.AccountNumber);
 
-            if (account == null)
-                return ErrorResponse(request.AccountNumber, $"Invalid Account Number: {request.AccountNumber}");
+                if (account == null)
+                    return ErrorResponse(request.AccountNumber, $"Invalid Account Number: {request.AccountNumber}");
 
-            var balanceWithCurr = account.Balances.FirstOrDefault(b => b.Currency == request.Currency);
+                var balanceWithCurr = account.Balances.FirstOrDefault(b => b.Currency == request.Currency);
 
-            if (balanceWithCurr == null)
-                account.Balances.Add(new Core.Models.AccountBalance
+                if (balanceWithCurr == null)
+                    account.Balances.Add(new Core.Models.AccountBalance
+                    {
+                        Currency = request.Currency,
+                        Balance = request.Amount
+                    });
+                else
+                    balanceWithCurr.Balance += request.Amount;
+
+                _db.TransactionHistories.Add(new TransactionHistory
                 {
+                    AccountNumber = request.AccountNumber,
+                    TransactionType = TransactionType.Deposit,
                     Currency = request.Currency,
-                    Balance = request.Amount
+                    Amount = request.Amount,
+                    TransactionTime = DateTime.Now
                 });
-            else
-                balanceWithCurr.Balance += request.Amount;
 
-            await _db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
 
-            account = await _db.Accounts
-                .Include(a => a.Balances)
-                .FirstOrDefaultAsync(acc => acc.AccountNumber == request.AccountNumber);
+                account = await _db.Accounts
+                    .Include(a => a.Balances)
+                    .FirstOrDefaultAsync(acc => acc.AccountNumber == request.AccountNumber);
 
-            return ConvertToResponse(account, request.Currency);
+                return ConvertToResponse(account, request.Currency);
+            }
+            catch (Exception ex)
+            {
+                return ErrorResponse(request.AccountNumber, ex.Message);
+            }
         }
 
         public async Task<AccountTransactionResponse> Withdraw(AccountTransactionRequest request)
         {
-            _logger.LogInformation($"Withdraw amount to account number: {request.AccountNumber}");
+            try
+            {
+                _logger.LogInformation($"Withdraw amount to account number: {request.AccountNumber}");
 
-            var account = await _db.Accounts
-                .Include(a => a.Balances)
-                .FirstOrDefaultAsync(acc => acc.AccountNumber == request.AccountNumber);
+                var account = await _db.Accounts
+                    .Include(a => a.Balances)
+                    .FirstOrDefaultAsync(acc => acc.AccountNumber == request.AccountNumber);
 
-            if (account == null)
-                return ErrorResponse(request.AccountNumber, $"Invalid Account Number: {request.AccountNumber}");
-            
-            var balanceWithCurr = account.Balances.FirstOrDefault(b => b.Currency == request.Currency);
+                if (account == null)
+                    return ErrorResponse(request.AccountNumber, $"Invalid Account Number: {request.AccountNumber}");
 
-            if (balanceWithCurr == null || balanceWithCurr.Balance < request.Amount)
-                return ErrorResponse(request.AccountNumber, $"Insufficience Balance");
-            
-            balanceWithCurr.Balance -= request.Amount;
-            await _db.SaveChangesAsync();
+                var balanceWithCurr = account.Balances.FirstOrDefault(b => b.Currency == request.Currency);
 
-            account = await _db.Accounts
-                .Include(a => a.Balances)
-                .FirstOrDefaultAsync(acc => acc.AccountNumber == request.AccountNumber);
+                if (balanceWithCurr == null || balanceWithCurr.Balance < request.Amount)
+                    return ErrorResponse(request.AccountNumber, $"Insufficience Balance");
 
-            return ConvertToResponse(account, request.Currency);
+                balanceWithCurr.Balance -= request.Amount;
+
+                _db.TransactionHistories.Add(new TransactionHistory
+                {
+                    AccountNumber = request.AccountNumber,
+                    TransactionType = TransactionType.Deposit,
+                    Currency = request.Currency,
+                    Amount = request.Amount,
+                    TransactionTime = DateTime.Now
+                });
+
+                await _db.SaveChangesAsync();
+
+                account = await _db.Accounts
+                    .Include(a => a.Balances)
+                    .FirstOrDefaultAsync(acc => acc.AccountNumber == request.AccountNumber);
+
+                return ConvertToResponse(account, request.Currency);
+            }
+            catch (Exception ex)
+            {
+                return ErrorResponse(request.AccountNumber, ex.Message);
+            }
         }
     }
 }

@@ -12,9 +12,10 @@ using System;
 namespace Chillindo.Api.Migrations
 {
     [DbContext(typeof(ChillindoContext))]
-    partial class ChillindoContextModelSnapshot : ModelSnapshot
+    [Migration("20180103142401_transactionHistories")]
+    partial class transactionHistories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

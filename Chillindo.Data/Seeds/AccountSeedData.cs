@@ -12,6 +12,9 @@ namespace Chillindo.Data.Seeds
 
         public static void EnsureSeedData(this ChillindoContext db)
         {
+            if (db.Accounts == null)
+                return;
+
             db._logger.LogInformation("Seeding database");
 
             //Account 1

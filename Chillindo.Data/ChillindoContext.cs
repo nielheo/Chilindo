@@ -14,7 +14,7 @@ namespace Chillindo.Data
 
         public ChillindoContext()
         {
-            _migrations = true;
+            _migrations = false;
         }
 
         public ChillindoContext(DbContextOptions options, ILogger<ChillindoContext> logger)
@@ -54,9 +54,20 @@ namespace Chillindo.Data
                 .WithMany(p => p.Balances)
                 .HasForeignKey(h => h.AccountNumber)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //Transaction History 
+            modelBuilder.Entity<TransactionHistory>().HasKey(c => c.Id);
+            modelBuilder.Entity<TransactionHistory>().Property(e => e.Id).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<TransactionHistory>()
+                .HasOne(h => h.Account)
+                .WithMany(p => p.TransactionHistories)
+                .HasForeignKey(h => h.AccountNumber)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
+        public virtual DbSet<TransactionHistory> TransactionHistories { get; set; }
     }
 }
