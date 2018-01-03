@@ -55,6 +55,11 @@ namespace Chillindo.Data
                 .HasForeignKey(h => h.AccountNumber)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<AccountBalance>()
+                .Property(a => a.RowVersion)
+                .IsConcurrencyToken()
+                .ValueGeneratedOnAddOrUpdate();
+
             //Transaction History 
             modelBuilder.Entity<TransactionHistory>().HasKey(c => c.Id);
             modelBuilder.Entity<TransactionHistory>().Property(e => e.Id).ValueGeneratedOnAdd();
