@@ -39,7 +39,7 @@ namespace Chillindo.Api.Controllers
         [Route("{id}/withdraw")]
         public async Task<AccountTransactionResponse> Withdraww([FromBody]AccountTransactionRequest request)
         {
-            return new AccountTransactionResponse();
+            return await _AccountRep.Withdraw(request);
         }
         
     }
