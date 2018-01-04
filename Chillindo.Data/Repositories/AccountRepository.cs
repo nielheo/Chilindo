@@ -3,9 +3,7 @@ using Chillindo.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Chillindo.Data.Repositories
@@ -67,7 +65,7 @@ namespace Chillindo.Data.Repositories
 
             if (account == null)
                 return ErrorResponse(accountNumber, $"Invalid Account Number: {accountNumber}");
-            
+
             return ConvertToResponse(account);
         }
 
@@ -134,7 +132,7 @@ namespace Chillindo.Data.Repositories
                 var balanceWithCurr = account.Balances.FirstOrDefault(b => b.Currency == request.Currency);
 
                 if (balanceWithCurr == null || balanceWithCurr.Balance < request.Amount)
-                    return ErrorResponse(request.AccountNumber, $"Insufficience Balance");
+                    return ErrorResponse(request.AccountNumber, $"Insufficient balance");
 
                 balanceWithCurr.Balance -= request.Amount;
 

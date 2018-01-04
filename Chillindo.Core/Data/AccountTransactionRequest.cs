@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Chillindo.Core.Data
+﻿namespace Chillindo.Core.Data
 {
     public class AccountTransactionRequest
     {

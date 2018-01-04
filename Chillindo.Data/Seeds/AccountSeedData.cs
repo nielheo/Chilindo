@@ -1,15 +1,12 @@
 ﻿using Chillindo.Core.Models;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Chillindo.Data.Seeds
 {
     public static class AccountSeedData
     {
-
         public static void EnsureSeedData(this ChillindoContext db)
         {
             if (db.Accounts == null)
@@ -79,7 +76,6 @@ namespace Chillindo.Data.Seeds
                 db.Accounts.AddRange(accounts);
                 db.SaveChanges();
             }
-            
         }
     }
 }

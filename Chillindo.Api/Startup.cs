@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Chillindo.Core.Data;
+using Chillindo.Data;
+using Chillindo.Data.Repositories;
+using Chillindo.Data.Seeds;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Chillindo.Core.Data;
-using Chillindo.Data.Repositories;
-using Chillindo.Data;
-using Microsoft.EntityFrameworkCore;
-using Chillindo.Data.Seeds;
 
 namespace Chillindo.Api
 {
@@ -36,14 +31,15 @@ namespace Chillindo.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .AddJsonOptions(options => {
+                .AddJsonOptions(options =>
+                {
                     options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 });
 
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddDbContext<ChillindoContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionStrings:ChillindoDatabaseConnection"],
-                b=>b.MigrationsAssembly("Chillindo.Api")));
+                b => b.MigrationsAssembly("Chillindo.Api")));
             if (Env.IsEnvironment("Test"))
             {
                 services.AddDbContext<ChillindoContext>(options =>

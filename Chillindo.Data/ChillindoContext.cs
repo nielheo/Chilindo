@@ -1,9 +1,6 @@
 ﻿using Chillindo.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Chillindo.Data
 {
@@ -29,7 +26,7 @@ namespace Chillindo.Data
             if (_migrations)
             {
                 optionsBuilder.UseSqlServer("Data Source=(localdb);Initial Catalog=Chillindo;Integrated Security=SSPI;integrated security=true;MultipleActiveResultSets=True;",
-                    b=>b.MigrationsAssembly("Chillindo.Api"));
+                    b => b.MigrationsAssembly("Chillindo.Api"));
             }
 
             base.OnConfiguring(optionsBuilder);
@@ -44,10 +41,10 @@ namespace Chillindo.Data
             modelBuilder.Entity<Account>().HasKey(c => c.AccountNumber);
             modelBuilder.Entity<Account>().Property(e => e.AccountNumber).ValueGeneratedNever();
 
-            // account balances 
+            // account balances
             modelBuilder.Entity<AccountBalance>().HasKey(c => c.Id);
             modelBuilder.Entity<AccountBalance>().Property(e => e.Id).ValueGeneratedOnAdd();
-            
+
             // Acount Balance
             modelBuilder.Entity<AccountBalance>()
                 .HasOne(h => h.Account)
@@ -60,7 +57,7 @@ namespace Chillindo.Data
                 .IsConcurrencyToken()
                 .ValueGeneratedOnAddOrUpdate();
 
-            //Transaction History 
+            //Transaction History
             modelBuilder.Entity<TransactionHistory>().HasKey(c => c.Id);
             modelBuilder.Entity<TransactionHistory>().Property(e => e.Id).ValueGeneratedOnAdd();
 

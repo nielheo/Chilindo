@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Chillindo.Core.Data;
 using Microsoft.AspNetCore.Mvc;
-using Chillindo.Core.Data;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,6 +10,7 @@ namespace Chillindo.Api.Controllers
     public class AccountController : Controller
     {
         private IAccountRepository _AccountRep;
+
         public AccountController(IAccountRepository _accountRep)
         {
             _AccountRep = _accountRep;
@@ -25,7 +23,7 @@ namespace Chillindo.Api.Controllers
         {
             return await _AccountRep.Balance(id);
         }
-        
+
         // POST api/values
         [HttpPost]
         [Route("{id}/deposit")]
@@ -41,6 +39,5 @@ namespace Chillindo.Api.Controllers
         {
             return await _AccountRep.Withdraw(request);
         }
-        
     }
 }

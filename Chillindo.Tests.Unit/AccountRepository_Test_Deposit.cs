@@ -1,13 +1,5 @@
 ﻿using Chillindo.Core.Data;
-using Chillindo.Core.Models;
-using Chillindo.Data;
-using Chillindo.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Chillindo.Tests.Unit
@@ -25,7 +17,7 @@ namespace Chillindo.Tests.Unit
             };
 
             var result = await _accountRepository.Deposit(request);
-            
+
             Assert.AreEqual(true, result.Successful, "Deposit THB 1000 to account number 1234 should be successful");
             Assert.AreEqual(1234, result.AccountNumber, "Deposit THB 1000 to account number 1234 should return AccuntNumber: 1234");
             Assert.AreEqual("THB", result.Currency, "Deposit THB 1000 to account number 1234 should successfully deposit to currency THB");
@@ -48,7 +40,7 @@ namespace Chillindo.Tests.Unit
             };
 
             var result = await _accountRepository.Deposit(request);
-            
+
             Assert.AreEqual(true, result.Successful, "Deposit USD 125 to account number 1234 should be successful");
             Assert.AreEqual(1234, result.AccountNumber, "Deposit USD 125 to account number 1234 should return AccuntNumber: 1234");
             Assert.AreEqual("USD", result.Currency, "Deposit USD 125 to account number 1234 should successfully deposit to currency USD");
@@ -71,7 +63,7 @@ namespace Chillindo.Tests.Unit
             };
 
             var result = await _accountRepository.Deposit(request);
-            
+
             Assert.AreEqual(true, result.Successful, "Deposit SGD 165 to account number 1234 should be successful");
             Assert.AreEqual(1234, result.AccountNumber, "Deposit SGD 165 to account number 1234 should return AccuntNumber: 1234");
             Assert.AreEqual("SGD", result.Currency, "Deposit SGD 165 to account number 1234 should successfully deposit to currency SGD");
@@ -96,11 +88,11 @@ namespace Chillindo.Tests.Unit
             };
 
             var result = await _accountRepository.Deposit(request);
-            
+
             Assert.AreEqual(true, result.Successful, "Deposit THB 1200 to account number 3456 should be successful");
             Assert.AreEqual(3456, result.AccountNumber, "Deposit THB 1200 to account number 3456 should return AccuntNumber: 1234");
             Assert.AreEqual("THB", result.Currency, "Deposit THB 1200 to account number 3456 should successfully deposit to currency THB");
-            Assert.AreEqual(23700, result.Balance, "Deposit THB 1200 to account number 3456, balance should be 6000");
+            Assert.AreEqual(23700, result.Balance, "Deposit THB 1200 to account number 3456, balance should be 23700");
 
             Assert.AreEqual(null, result.AccountBalances, "Deposit should not return Account Balances items");
 
@@ -119,11 +111,11 @@ namespace Chillindo.Tests.Unit
             };
 
             var result = await _accountRepository.Deposit(request);
-            
+
             Assert.AreEqual(true, result.Successful, "Deposit USD 372 to account number 3456 should be successful");
             Assert.AreEqual(3456, result.AccountNumber, "Deposit USD 372 to account number 3456 should return AccuntNumber: 1234");
             Assert.AreEqual("USD", result.Currency, "Deposit USD 372 to account number 3456 should successfully deposit to currency USD");
-            Assert.AreEqual(372, result.Balance, "Deposit USD 372 to account number 3456, balance should be 375");
+            Assert.AreEqual(372, result.Balance, "Deposit USD 372 to account number 3456, balance should be 372");
 
             Assert.AreEqual(null, result.AccountBalances, "Deposit should not return Account Balances items");
 
@@ -143,7 +135,7 @@ namespace Chillindo.Tests.Unit
             Assert.AreEqual(true, result.Successful, "Deposit SGD 317 to account number 3456 should be successful");
             Assert.AreEqual(3456, result.AccountNumber, "Deposit SGD 317 to account number 3456 should return AccuntNumber: 1234");
             Assert.AreEqual("SGD", result.Currency, "Deposit SGD 317 to account number 3456 should successfully deposit to currency SGD");
-            Assert.AreEqual(317, result.Balance, "Deposit SGD 317 to account number 3456, balance should be 165");
+            Assert.AreEqual(317, result.Balance, "Deposit SGD 317 to account number 3456, balance should be 317");
 
             //Negative
             Assert.AreEqual(null, result.AccountBalances, "Deposit should not return Account Balances items");
@@ -173,6 +165,5 @@ namespace Chillindo.Tests.Unit
 
             Assert.AreEqual(null, result.AccountBalances, "Deposit should not return Account Balances items");
         }
-
     }
 }

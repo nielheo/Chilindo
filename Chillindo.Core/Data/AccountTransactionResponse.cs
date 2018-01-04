@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Chillindo.Core.Data
 {
@@ -8,7 +6,7 @@ namespace Chillindo.Core.Data
     {
         public string Currency { get; set; }
         public decimal Balance { get; set; }
-    } 
+    }
 
     public class AccountTransactionResponse
     {

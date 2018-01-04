@@ -15,7 +15,7 @@ namespace Chillindo.Tests.Unit
     public partial class AccountRepository_Test
     {
         private readonly AccountRepository _accountRepository;
-        
+
         public AccountRepository_Test()
         {
             var dbLogger = new Mock<ILogger<ChillindoContext>>();
@@ -29,7 +29,8 @@ namespace Chillindo.Tests.Unit
             {
                 context.Database.EnsureDeleted();
 
-                context.Accounts.Add(new Account {
+                context.Accounts.Add(new Account
+                {
                     AccountNumber = 1234,
                     IsActive = true,
                     Balances = new List<AccountBalance>
@@ -71,7 +72,7 @@ namespace Chillindo.Tests.Unit
         {
             var result = await _accountRepository.Balance(1234);
             List<string> validCurrs = new List<string> { "USD", "THB" };
-            
+
             Assert.AreEqual(true, result.Successful, "Balance for account number 1234 should success");
             Assert.AreEqual(1234, result.AccountNumber, "Balance for account number 1234 should have AccuntNumber: 1234");
             Assert.AreEqual(2, result.AccountBalances.Count, "Balance for account number 1234 should return 2 items of AccountBalance");
@@ -84,7 +85,6 @@ namespace Chillindo.Tests.Unit
             Assert.AreEqual(0, result.AccountBalances.Where(a => !validCurrs.Contains(a.Currency)).Count(), "Balance for account number 1234 should return no items of AccountBalance with currency except THB, USD");
             Assert.AreEqual(null, result.Currency, "Balance for account number 1234 should not return currency in root");
             Assert.AreEqual(null, result.Balance, "Balance for account number 1234 should not amount currency in root");
-
         }
 
         [TestMethod]
@@ -105,7 +105,6 @@ namespace Chillindo.Tests.Unit
             Assert.AreEqual(0, result.AccountBalances.Where(a => !validCurrs.Contains(a.Currency)).Count(), "Balance for account number 1234 should return no items of AccountBalance with currency except THB, USD");
             Assert.AreEqual(null, result.Currency, "Balance for account number 1234 should not return currency in root");
             Assert.AreEqual(null, result.Balance, "Balance for account number 1234 should not amount currency in root");
-
         }
 
         [TestMethod]
@@ -126,7 +125,6 @@ namespace Chillindo.Tests.Unit
             Assert.AreEqual(0, result.AccountBalances.Where(a => !validCurrs.Contains(a.Currency)).Count(), "Balance for account number 1234 should return no items of AccountBalance with currency except THB, USD");
             Assert.AreEqual(null, result.Currency, "Balance for account number 1234 should not return currency in root");
             Assert.AreEqual(null, result.Balance, "Balance for account number 1234 should not amount currency in root");
-
         }
 
         [TestMethod]
@@ -137,12 +135,11 @@ namespace Chillindo.Tests.Unit
 
             Assert.AreEqual(false, result.Successful, "Balance for account number 1223 should success");
             Assert.AreEqual("Invalid Account Number: 1223", result.Message);
-            
+
             ////Negative
             Assert.AreEqual(null, result.Currency, "Balance for account number 1234 should not return currency in root");
             Assert.AreEqual(null, result.Balance, "Balance for account number 1234 should not amount currency in root");
             Assert.AreEqual(null, result.AccountBalances, "Balance for account number 1234 should not return account balances");
-
         }
     }
 }
