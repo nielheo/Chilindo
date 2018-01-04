@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 namespace Chillindo.Tests.Unit
 {
     [TestClass]
-    public class AccountRepository_Test_Balance
+    public partial class AccountRepository_Test
     {
         private readonly AccountRepository _accountRepository;
         
-        public AccountRepository_Test_Balance()
+        public AccountRepository_Test()
         {
             var dbLogger = new Mock<ILogger<ChillindoContext>>();
             // Given
@@ -82,6 +82,9 @@ namespace Chillindo.Tests.Unit
 
             //Negative
             Assert.AreEqual(0, result.AccountBalances.Where(a => !validCurrs.Contains(a.Currency)).Count(), "Balance for account number 1234 should return no items of AccountBalance with currency except THB, USD");
+            Assert.AreEqual(null, result.Currency, "Balance for account number 1234 should not return currency in root");
+            Assert.AreEqual(null, result.Balance, "Balance for account number 1234 should not amount currency in root");
+
         }
 
         [TestMethod]
@@ -100,6 +103,9 @@ namespace Chillindo.Tests.Unit
 
             //Negative
             Assert.AreEqual(0, result.AccountBalances.Where(a => !validCurrs.Contains(a.Currency)).Count(), "Balance for account number 1234 should return no items of AccountBalance with currency except THB, USD");
+            Assert.AreEqual(null, result.Currency, "Balance for account number 1234 should not return currency in root");
+            Assert.AreEqual(null, result.Balance, "Balance for account number 1234 should not amount currency in root");
+
         }
 
         [TestMethod]
@@ -118,6 +124,25 @@ namespace Chillindo.Tests.Unit
 
             //Negative
             Assert.AreEqual(0, result.AccountBalances.Where(a => !validCurrs.Contains(a.Currency)).Count(), "Balance for account number 1234 should return no items of AccountBalance with currency except THB, USD");
+            Assert.AreEqual(null, result.Currency, "Balance for account number 1234 should not return currency in root");
+            Assert.AreEqual(null, result.Balance, "Balance for account number 1234 should not amount currency in root");
+
+        }
+
+        [TestMethod]
+        public async Task NotReturnDataGivenAccountNumber1223()
+        {
+            var result = await _accountRepository.Balance(1223);
+            List<string> validCurrs = new List<string> { "USD", "THB" };
+
+            Assert.AreEqual(false, result.Successful, "Balance for account number 1223 should success");
+            Assert.AreEqual("Invalid Account Number: 1223", result.Message);
+            
+            ////Negative
+            Assert.AreEqual(null, result.Currency, "Balance for account number 1234 should not return currency in root");
+            Assert.AreEqual(null, result.Balance, "Balance for account number 1234 should not amount currency in root");
+            Assert.AreEqual(null, result.AccountBalances, "Balance for account number 1234 should not return account balances");
+
         }
     }
 }
