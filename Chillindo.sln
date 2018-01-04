@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chillindo.Core", "Chillindo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chillindo.Data", "Chillindo.Data\Chillindo.Data.csproj", "{8A224765-2E68-4CA4-8717-9EE9B544AE86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chillindo.Tests.Unit", "Chillindo.Tests.Unit\Chillindo.Tests.Unit.csproj", "{87350002-C37E-4637-BC35-68D8681EB5CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chillindo.Tests.Unit", "Chillindo.Tests.Unit\Chillindo.Tests.Unit.csproj", "{87350002-C37E-4637-BC35-68D8681EB5CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chillindo.React", "Chillindo.React\Chillindo.React.csproj", "{C97F0DAF-7704-42D9-858E-BD0086374263}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{87350002-C37E-4637-BC35-68D8681EB5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87350002-C37E-4637-BC35-68D8681EB5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87350002-C37E-4637-BC35-68D8681EB5CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C97F0DAF-7704-42D9-858E-BD0086374263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C97F0DAF-7704-42D9-858E-BD0086374263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C97F0DAF-7704-42D9-858E-BD0086374263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C97F0DAF-7704-42D9-858E-BD0086374263}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
