@@ -12,7 +12,8 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
       accountNumber: '',
       action: '',
       currency: '',
-      amount: 0
+      amount: 0,
+      clicked: false
     }
   }
 
@@ -40,25 +41,65 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
     }
   }
 
+  _validInput = () => {
+    if (!this.state.action)
+      return false
+
+    if (this.state.action === 'balance' && !this.state.accountNumber)
+      return false
+
+    if (this.state.action !== 'balance'
+      && !this.state.accountNumber
+      && !this.state.currency
+      && !this.state.amount
+    )
+      return false
+
+    return true
+  }
+
+  _submitRequest = () => {
+    return fetch('/api/account/' + this.state.accountNumber + '/balance', {
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept-Encoding': 'gzip',
+      }
+    }).then(res => {
+      if (res) return res.json()
+    }).catch(err => { })
+  }
+
+  _onButtonClicked = () => {
+    if (this._validInput())
+      this._submitRequest()
+    else {
+      if (!this.state.clicked)
+        this.setState({ clicked: true })
+    }
+  }
+
   public render() {
     return <Grid>
+      <Row>
+        <Col md={6}>
       <Row><Col md={12}>.</Col></Row>
         <Row>
-          <Col md={3}>
+          <Col md={8}>
             <FormTextbox
               label={'Account Number'}
               disabled={false}
               value={this.state.accountNumber}
               onChange={this._onAccountNumberChange}
-              error={''}
+              error={this.state.clicked && !this.state.accountNumber ? '* required' : ''}
             />
           </Col>
         </Row>
         <Row>
-          <Col md={3}>
+          <Col md={8}>
             <FormDropdown
             label={'Action'}
-            error={''}
+                error={this.state.clicked && !this.state.action ? '* required' : ''}
             value={this.state.action}
             onChange={this._onActionChange}
             disabled={false}
@@ -72,7 +113,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
         </Row>
         {this.state.action && this.state.action !== 'balance' && <section>
           <Row>
-            <Col md={3}>
+            <Col md={8}>
               <FormDropdown
                 label={'Currency'}
                 error={''}
@@ -90,10 +131,10 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
             </Col>
         </Row>
       <Row>
-          <Col md={3}>
+          <Col md={8}>
             <FormTextbox
             label={'Amount'}
-            error={''}
+            error={this.state.clicked && !this.state.amount ? '* required' : ''}
             value={this.state.amount}
             onChange={this._onAmountChange}
             disabled={false}
@@ -102,9 +143,11 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
       </Row>
         </section>
         }
-        {this.state.action && <Button bsStyle='primary'>Submit</Button>
+        {this.state.action && <Button bsStyle='primary' onClick={this._onButtonClicked}>Submit</Button>
 
         }
-      </Grid>
+        </Col>
+      </Row>
+    </Grid>
   }
 }

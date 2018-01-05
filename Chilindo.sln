@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chilindo.Core", "Chilindo.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chilindo.Data", "Chilindo.Data\Chilindo.Data.csproj", "{7EDD2A3F-C7CD-4039-8074-81A8E669CEC2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chilindo.Api", "Chilindo.Api\Chilindo.Api.csproj", "{DB9B1BE0-0B28-44F3-99EE-26F759E4CEE0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chilindo.Tests.Unit", "Chilindo.Tests.Unit\Chilindo.Tests.Unit.csproj", "{450ADF2D-3C40-4639-B4F5-F1FC1F67CCBC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chilindo.React", "Chilindo.React\Chilindo.React.csproj", "{87003F73-14D0-4572-B470-8AB507A93AD4}"
@@ -27,10 +25,6 @@ Global
 		{7EDD2A3F-C7CD-4039-8074-81A8E669CEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EDD2A3F-C7CD-4039-8074-81A8E669CEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EDD2A3F-C7CD-4039-8074-81A8E669CEC2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB9B1BE0-0B28-44F3-99EE-26F759E4CEE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB9B1BE0-0B28-44F3-99EE-26F759E4CEE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB9B1BE0-0B28-44F3-99EE-26F759E4CEE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB9B1BE0-0B28-44F3-99EE-26F759E4CEE0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{450ADF2D-3C40-4639-B4F5-F1FC1F67CCBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{450ADF2D-3C40-4639-B4F5-F1FC1F67CCBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{450ADF2D-3C40-4639-B4F5-F1FC1F67CCBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
