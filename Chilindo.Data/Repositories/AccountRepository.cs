@@ -69,7 +69,7 @@ namespace Chilindo.Data.Repositories
             return ConvertToResponse(account);
         }
 
-        public async Task<AccountTransactionResponse> Deposit(AccountTransactionRequest request)
+        public async Task<AccountTransactionResponse> Deposit(AccountTransactionRequest request, int maxRetry = 10, int retry = 1)
         {
             try
             {
@@ -112,11 +112,22 @@ namespace Chilindo.Data.Repositories
             }
             catch (Exception ex)
             {
-                return ErrorResponse(request.AccountNumber, ex.Message);
+                if (maxRetry >= retry)
+                {
+                    _db = new ChilindoContext(_db._options, _db._logger);
+                    await Task.Delay(200);
+                    retry += 1;
+                    return await Deposit(request, maxRetry, retry);
+                }
+                else
+                {
+
+                    return ErrorResponse(request.AccountNumber, ex.Message);
+                }
             }
         }
 
-        public async Task<AccountTransactionResponse> Withdraw(AccountTransactionRequest request)
+        public async Task<AccountTransactionResponse> Withdraw(AccountTransactionRequest request, int maxRetry = 10, int retry = 1)
         {
             try
             {
@@ -139,7 +150,7 @@ namespace Chilindo.Data.Repositories
                 _db.TransactionHistories.Add(new TransactionHistory
                 {
                     AccountNumber = request.AccountNumber,
-                    TransactionType = TransactionType.Deposit,
+                    TransactionType = TransactionType.Withdraw,
                     Currency = request.Currency,
                     Amount = request.Amount,
                     TransactionTime = DateTime.Now
@@ -155,7 +166,18 @@ namespace Chilindo.Data.Repositories
             }
             catch (Exception ex)
             {
-                return ErrorResponse(request.AccountNumber, ex.Message);
+                if (maxRetry >= retry)
+                {
+                    _db = new ChilindoContext(_db._options, _db._logger);
+                    await Task.Delay(200);
+                    retry += 1;
+                    return await Withdraw(request, maxRetry, retry);
+                }
+                else
+                {
+
+                    return ErrorResponse(request.AccountNumber, ex.Message);
+                }
             }
         }
     }

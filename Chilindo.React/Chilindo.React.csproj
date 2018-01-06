@@ -15,6 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\components\Batch\Batch.tsx" />
+    <None Remove="ClientApp\components\Batch\Transaction.tsx" />
     <None Remove="ClientApp\components\Common\FormDropdown.tsx" />
     <None Remove="ClientApp\components\Common\FormInput.tsx" />
     <None Remove="ClientApp\components\Common\FormTextbox.tsx" />
@@ -37,6 +39,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\Batch\Batch.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Batch\Transaction.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Common\FormDropdown.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Common\FormInput.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Common\FormTextbox.tsx" />

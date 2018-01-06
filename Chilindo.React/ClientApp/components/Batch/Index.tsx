@@ -9,12 +9,15 @@ import FormDropdown from '../Common/FormDropdown'
 
 import Submit from '../Common/Submit'
 import Batch from './Batch'
+import Transaction from './Transaction'
 
 let minBatch = 1, maxBatch = 10
-let minTrans = 1, maxTrans = 20
+let minTrans = 1, maxTrans = 10
 let minInterval = 100, maxInterval = 5000
 
 let results: any[] = []
+let transactions: any[] = []
+let transactionIndex = 0
 
 export default class Home extends React.Component<RouteComponentProps<{}>, any> {
   constructor(props: any) {
@@ -25,6 +28,7 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
       transactionPerBatch: 10,
       interval: 1000,
       results: [],
+      transactions: []
     }
   }
 
@@ -71,6 +75,22 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
     return true
   }
 
+  _randomAction = () => {
+    let actions = ['deposit', 'withdraw']
+    let index = Math.floor((Math.random() * 2))
+    return actions[index]
+  }
+  
+  _randomCurrency = () => {
+    let currencies = ['CNY', 'MYR', 'THB', 'USD', 'VND']
+    let index = Math.floor((Math.random() * 5))
+    return currencies[index]
+  }
+
+  _randomAmount = () => {
+    return Math.floor((Math.random() * 100) + 1)
+  }
+
   _addBatch = (index: number) => {
     results.push({
       index: index,
@@ -85,7 +105,31 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
 
       this.setState({ results: results })
     })
-    
+
+    for (let j = 0; j < this.state.transactionPerBatch; j++) {
+      let action = this._randomAction()
+      let currency = this._randomCurrency()
+      let amount = this._randomAmount()
+      let transIndex = transactionIndex++
+      transactions.push({
+        batch: index,
+        index: transIndex,
+        started: moment(),
+        action: action,
+        currency: currency,
+        amount: amount,
+        result: null
+      })
+
+      this.setState({ transactions: transactions })
+
+      Submit(action, this.state.accountNumber, currency, amount).then((rsp: any) => {
+        let tran = transactions.filter((t: any) => t.index == transIndex)[0]
+        tran.result = rsp
+        tran.ended = moment()
+        this.setState({ transactions: transactions })
+      })
+    }
   }
   
   _submitRequest = () => {
@@ -102,6 +146,8 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
   _onButtonClicked = () => {
     if (this._validInput()) {
       results = []
+      transactions = []
+      transactionIndex = 0
       this._submitRequest()
     } else {
       if (!this.state.clicked)
@@ -131,9 +177,9 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
       </Row>
       <hr />
       <Row>
-        <Col md={5}>
+        <Col md={3}>
           <Row>
-            <Col md={8}>
+            <Col md={12}>
               <FormTextbox
                 label={'Account Number'}
                 disabled={false}
@@ -144,7 +190,7 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
             </Col>
           </Row>
           <Row>
-            <Col md={8}>
+            <Col md={12}>
               <FormTextbox
                 label={'Number of Batch'}
                 disabled={false}
@@ -156,7 +202,7 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
             </Col>
           </Row>
           <Row>
-            <Col md={8}>
+            <Col md={12}>
               <FormTextbox
                 label={'Transaction / Batch'}
                 disabled={false}
@@ -168,7 +214,7 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
             </Col>
           </Row>
           <Row>
-            <Col md={8}>
+            <Col md={12}>
               <FormTextbox
                 label={'Interval (milliseconds)'}
                 disabled={false}
@@ -185,10 +231,11 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
             </Col>
           </Row>
         </Col>
-        <Col md={7}>
+        <Col md={9}>
           {
-            this.state.results.map((res: any) => <Batch result={res} key={res.index} /> )
+            //this.state.results.map((res: any) => <Batch result={res} key={res.index} /> )
           }
+          <Transaction transactions={this.state.transactions} />
         </Col>
       </Row>
     </section>

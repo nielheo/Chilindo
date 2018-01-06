@@ -6,7 +6,8 @@ namespace Chilindo.Data
 {
     public class ChilindoContext : DbContext
     {
-        public readonly ILogger _logger;
+        public readonly ILogger<ChilindoContext> _logger;
+        public readonly DbContextOptions _options;
         private bool _migrations;
 
         public ChilindoContext()
@@ -17,6 +18,7 @@ namespace Chilindo.Data
         public ChilindoContext(DbContextOptions options, ILogger<ChilindoContext> logger)
             : base(options)
         {
+            _options = options;
             _logger = logger;
             Database.EnsureCreated();
         }
