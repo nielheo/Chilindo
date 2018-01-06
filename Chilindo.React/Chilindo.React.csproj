@@ -18,6 +18,7 @@
     <None Remove="ClientApp\components\Common\FormDropdown.tsx" />
     <None Remove="ClientApp\components\Common\FormInput.tsx" />
     <None Remove="ClientApp\components\Common\FormTextbox.tsx" />
+    <None Remove="ClientApp\components\Common\Submit.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,6 +40,7 @@
     <TypeScriptCompile Include="ClientApp\components\Common\FormDropdown.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Common\FormInput.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Common\FormTextbox.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\Common\Submit.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

@@ -1,4 +1,5 @@
-﻿using Chilindo.Core.Data;
+﻿using Chilindo.Api.Controllers;
+using Chilindo.Core.Data;
 using Chilindo.Data;
 using Chilindo.Data.Repositories;
 using Chilindo.Data.Seeds;
@@ -8,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Web.Http;
+using System.Web.Http.Dispatcher;
 
 namespace Chilindo.Api
 {
@@ -20,7 +23,7 @@ namespace Chilindo.Api
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            
+
             Configuration = builder.Build();
             Env = env;
         }
@@ -31,6 +34,8 @@ namespace Chilindo.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.AddMvc()
                 .AddJsonOptions(options =>
                 {
@@ -66,9 +71,17 @@ namespace Chilindo.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+            
             app.UseMvc();
 
             db.EnsureSeedData();
+
         }
+
     }
 }

@@ -1,9 +1,11 @@
-import * as React from 'react';
+import * as React from 'react'; 
 import { RouteComponentProps } from 'react-router';
 
 import { Grid, Row, Col, Button, Table, Panel } from 'react-bootstrap'
 import FormTextbox from './Common/FormTextbox'
 import FormDropdown from './Common/FormDropdown'
+
+import Submit from './Common/Submit'
 
 export class Home extends React.Component<RouteComponentProps<{}>, any> {
   constructor(props: any) {
@@ -38,7 +40,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
   }
 
   _onAmountChange = (e: any) => {
-    let value = parseFloat(e.target.value)
+    let value = parseFloat(e.target.value) || 0
     if (this.state.action !== value) {
       this.setState({ amount: value })
     }
@@ -60,53 +62,15 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
 
     return true
   }
-
-  _postTransaction = () => {
-    let action = this.state.action
-    return fetch('/api/account/' + this.state.accountNumber + '/' + this.state.action, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Accept-Encoding': 'gzip',
-      },
-      body: JSON.stringify({
-        accountNumber: this.state.accountNumber,
-        currency: this.state.currency,
-        amount: this.state.amount
-      })
-    }).then(res => {
-      if (res) return res.json()
-    }).then(res =>
-      this.setState({ result: res, actionResult: action })
-      ).catch(err => { })
-  }
-
-  _submitBalance = () => {
-    let action = this.state.action
-    return fetch('/api/account/' + this.state.accountNumber + '/balance', {
-      method: 'get',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept-Encoding': 'gzip',
-      }
-    }).then(res => {
-      if (res) return res.json()
-    }).then(res =>
-      this.setState({ result: res, actionResult: action })
-    ).catch(err => { })
-  }
-
+  
   _submitRequest = () => {
-    switch (this.state.action.toLowerCase()) {
-      case 'balance':
-        this._submitBalance()
-        break
-      case 'deposit':
-      case 'withdraw':
-        this._postTransaction()
-        break
-    }
+    Submit(this.state.action,
+      this.state.accountNumber,
+      this.state.currency,
+      this.state.amount).then((res: any) => {
+        console.log(res)
+        this.setState({ result: res })
+      })
   }
 
   _onButtonClicked = () => {
@@ -134,6 +98,9 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
   public render() {
     console.log(this.state.result)
     return <section>
+      <Row>
+        <Col md={12}><h2>Single Transaction</h2></Col>
+      </Row>
       <hr/>
       <Row>
         <Col md={5}>
@@ -219,7 +186,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
                     {this.state.result.accountBalances.map((bal: any) =>
                       <tr>
                         <td>{bal.currency}</td>
-                        <td>{bal.balance}</td>
+                        <td>{bal.balance.toLocaleString('en-US')}</td>
 
                       </tr>
                     )}
@@ -230,7 +197,7 @@ export class Home extends React.Component<RouteComponentProps<{}>, any> {
             {
               this.state.result && this.state.result.currency &&
               <Row><Col md={12}>
-                Final balance {this.state.result.currency} {this.state.result.balance}
+                Final balance {this.state.result.currency} {this.state.result.balance.toLocaleString('en-US')}
               </Col></Row>
             }
             </Panel>

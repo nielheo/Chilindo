@@ -32,7 +32,9 @@
     "webpack-hot-middleware": "2.18.2"
   },
   "dependencies": {
+    "@types/moment": "^2.13.0",
     "@types/react-bootstrap": "^0.31.9",
+    "moment": "^2.20.1",
     "react-bootstrap": "^0.31.5",
     "react-router": "^4.2.0",
     "redbox-react": "^1.5.0"
