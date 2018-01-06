@@ -12,7 +12,7 @@ import Batch from './Batch'
 import Transaction from './Transaction'
 
 let minBatch = 1, maxBatch = 10
-let minTrans = 1, maxTrans = 10
+let minTrans = 1, maxTrans = 20 
 let minInterval = 100, maxInterval = 5000
 
 let results: any[] = []

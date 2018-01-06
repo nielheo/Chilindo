@@ -12,9 +12,10 @@ using System;
 namespace Chilindo.Api.Migrations
 {
     [DbContext(typeof(ChilindoContext))]
-    partial class ChilindoContextModelSnapshot : ModelSnapshot
+    [Migration("20180106180701_uniqueKeyAccountBalance")]
+    partial class uniqueKeyAccountBalance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +50,9 @@ namespace Chilindo.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountNumber");
+                    b.HasIndex("AccountNumber", "Currency")
+                        .IsUnique()
+                        .HasFilter("[Currency] IS NOT NULL");
 
                     b.ToTable("AccountBalances");
                 });

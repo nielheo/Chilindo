@@ -28,10 +28,10 @@ export default class Transaction extends React.Component<{ transactions: any }, 
               <td>{tran.started.format('HH:mm:ss.ms')}</td>
               <td>{tran.action}</td>
               <td>{tran.currency} {tran.amount.toLocaleString('en-US')}</td>
-              <td>
+              <td className={tran.result && !tran.result.successful ? 'danger' : ''}>
                 {tran.result ? (tran.result.successful
                   ? 'success - ' + tran.result.currency + ' ' + tran.result.balance
-                  : 'failed - ' + tran.result.message) : '-'}
+                  : 'failed - ' + tran.result.message + ' ' + tran.result.currency + ' ' + tran.result.balance) : '-'}
               </td>
               <td>
                 {tran.ended && tran.ended.format('HH:mm:ss.ms') }

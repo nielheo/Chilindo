@@ -12,7 +12,7 @@ namespace Chilindo.Data
 
         public ChilindoContext()
         {
-            _migrations = false;
+            _migrations = true;
         }
 
         public ChilindoContext(DbContextOptions options, ILogger<ChilindoContext> logger)
@@ -59,6 +59,9 @@ namespace Chilindo.Data
                 .IsConcurrencyToken()
                 .ValueGeneratedOnAddOrUpdate();
 
+            modelBuilder.Entity<AccountBalance>()
+                .HasIndex(p => new { p.AccountNumber, p.Currency }).IsUnique();
+            
             //Transaction History
             modelBuilder.Entity<TransactionHistory>().HasKey(c => c.Id);
             modelBuilder.Entity<TransactionHistory>().Property(e => e.Id).ValueGeneratedOnAdd();

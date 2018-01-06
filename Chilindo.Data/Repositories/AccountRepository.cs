@@ -143,8 +143,17 @@ namespace Chilindo.Data.Repositories
                 var balanceWithCurr = account.Balances.FirstOrDefault(b => b.Currency == request.Currency);
 
                 if (balanceWithCurr == null || balanceWithCurr.Balance < request.Amount)
-                    return ErrorResponse(request.AccountNumber, $"Insufficient balance");
-
+                {
+                    return new AccountTransactionResponse
+                    {
+                        AccountNumber = request.AccountNumber,
+                        Successful = false,
+                        Message = $"Insufficient balance",
+                        Currency = request.Currency,
+                        Balance = balanceWithCurr.Balance
+                    };
+                }
+                
                 balanceWithCurr.Balance -= request.Amount;
 
                 _db.TransactionHistories.Add(new TransactionHistory
