@@ -12,7 +12,7 @@ import Batch from './Batch'
 import Transaction from './Transaction'
 
 let minBatch = 1, maxBatch = 10
-let minTrans = 1, maxTrans = 20 
+let minTrans = 1, maxTrans = 100
 let minInterval = 100, maxInterval = 5000
 
 let results: any[] = []
@@ -87,7 +87,7 @@ export default class Home extends React.Component<RouteComponentProps<{}>, any> 
     return currencies[index]
   }
 
-  _randomAmount = () => {
+  _randomAmount = (): number => {
     return Math.floor((Math.random() * 100) + 1)
   }
 

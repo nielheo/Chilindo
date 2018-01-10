@@ -153,7 +153,7 @@ namespace Chilindo.Data.Repositories
                         Balance = balanceWithCurr.Balance
                     };
                 }
-                
+
                 balanceWithCurr.Balance -= request.Amount;
 
                 _db.TransactionHistories.Add(new TransactionHistory
@@ -164,7 +164,6 @@ namespace Chilindo.Data.Repositories
                     Amount = request.Amount,
                     TransactionTime = DateTime.Now
                 });
-
                 await _db.SaveChangesAsync();
 
                 account = await _db.Accounts
@@ -184,7 +183,6 @@ namespace Chilindo.Data.Repositories
                 }
                 else
                 {
-
                     return ErrorResponse(request.AccountNumber, ex.Message);
                 }
             }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Chilindo.Api.Migrations
 {
-    public partial class uniqueKeyAccountBalance : Migration
+    public partial class initiate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,8 +29,7 @@ namespace Chilindo.Api.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AccountNumber = table.Column<int>(nullable: false),
                     Balance = table.Column<decimal>(nullable: false),
-                    Currency = table.Column<string>(nullable: true),
-                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
+                    Currency = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

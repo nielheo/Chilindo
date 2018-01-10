@@ -7,7 +7,7 @@ export default class Transaction extends React.Component<{ transactions: any }, 
     console.log( this.props.transactions)
     return <Panel>
       <Row><Col md={12}>
-      <Table responsive>
+        <Table responsive bordered>
         <thead>
           <tr>
             <th>Batch</th>
@@ -30,8 +30,8 @@ export default class Transaction extends React.Component<{ transactions: any }, 
               <td>{tran.currency} {tran.amount.toLocaleString('en-US')}</td>
               <td className={tran.result && !tran.result.successful ? 'danger' : ''}>
                 {tran.result ? (tran.result.successful
-                  ? 'success - ' + tran.result.currency + ' ' + tran.result.balance
-                  : 'failed - ' + tran.result.message + ' ' + tran.result.currency + ' ' + tran.result.balance) : '-'}
+                  ? 'success - ' + tran.result.currency + ' ' + tran.result.balance.toLocaleString('en-US')
+                    : 'failed - ' + tran.result.message + ' ' + tran.result.currency + ' ' + (tran.result.balance || 0).toLocaleString('en-US')) : '-'}
               </td>
               <td>
                 {tran.ended && tran.ended.format('HH:mm:ss.ms') }

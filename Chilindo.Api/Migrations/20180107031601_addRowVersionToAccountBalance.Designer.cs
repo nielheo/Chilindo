@@ -12,8 +12,8 @@ using System;
 namespace Chilindo.Api.Migrations
 {
     [DbContext(typeof(ChilindoContext))]
-    [Migration("20180106180701_uniqueKeyAccountBalance")]
-    partial class uniqueKeyAccountBalance
+    [Migration("20180107031601_addRowVersionToAccountBalance")]
+    partial class addRowVersionToAccountBalance
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
